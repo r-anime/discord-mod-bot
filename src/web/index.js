@@ -4,7 +4,7 @@ const log = require('another-logger')({label: 'web'});
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const config = require('../config');
+const config = require('../../config');
 const responseHelpers = require('./middleware/responseHelpers');
 const logging = require('./middleware/logging');
 const auth = require('./routes/auth');
@@ -30,7 +30,7 @@ module.exports = (mongoClient, db, discordClient) => {
 
 	// Set up static serving of built frontend bundles
 	app.use(sirv(config.web.frontendBuildDir, {
-		dev: config.dev,
+		dev: process.env.NODE_ENV !== 'production',
 		single: true,
 		ignores: [
 			'/api',
